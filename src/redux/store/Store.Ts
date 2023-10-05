@@ -1,4 +1,5 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { surveySlice } from "../reducer/Reducer";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 
@@ -7,8 +8,10 @@ const persistConfig = {
   storage,
   whitelist: ["survey"],
 };
-
-const persistedReducer = persistReducer(persistConfig);
+export const rootReducer = combineReducers({
+  survey: surveySlice.reducer,
+});
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
   reducer: persistedReducer,
