@@ -1,23 +1,24 @@
-import { clearFocus } from "../../utill/ClearFocus";
 import { createSlice, nanoid } from "@reduxjs/toolkit";
-import { surveyProps } from "../../data/type";
+import { surveyProps } from "../../data/Type";
 
 const initialdata: surveyProps[] = [
   {
+    id: nanoid(),
     type: "title",
     title: "제목 없는 설문지",
     contents: "",
     isFocused: false,
+    isRequired: false,
   },
 ];
 
-const questionForm = (): surveyProps => ({
-  id: nanoid(),
+const questionForm = (id: string): surveyProps => ({
+  id,
   type: "radio",
   title: "",
   contents: [
     {
-      contentId: nanoid(),
+      contentId: id + 1,
       text: `옵션 1`,
     },
   ],
@@ -30,30 +31,72 @@ export const surveySlice = createSlice({
   initialState: initialdata,
   reducers: {
     addQuestion: (state) => {
-      clearFocus(state);
-      const newQuestion = questionForm();
-      state.push(newQuestion);
+      const newState = state.map((question) => ({
+        ...question,
+        isFocused: false,
+      }));
+      const newQuestion = questionForm(nanoid());
+      newState.push(newQuestion);
+      return newState;
     },
     deleteQuestion: (state, action) => {
-      const targetIndex = state.findIndex(
+      const newState = state.map((question) => ({
+        ...question,
+        isFocused: false,
+      }));
+      const targetIndex = newState.findIndex(
         (question) => question.id === action.payload.id
       );
 
       if (targetIndex !== -1) {
-        state.splice(targetIndex, 1);
+        newState.splice(targetIndex, 1);
         //제거한 요소의 이전 요소가 title이 아니라면 이전 요소에 focus
-        if (state[targetIndex - 1].type !== "title") {
-          state[targetIndex - 1].isFocused = true;
+        if (newState[targetIndex - 1].type !== "title") {
+          newState[targetIndex - 1].isFocused = true;
         }
         //제거한 요소의 다음 요소가 존재하면 그 요소에 focus
         else if (targetIndex < state.length) {
-          state[targetIndex].isFocused = true;
+          newState[targetIndex].isFocused = true;
         }
         //남은 요소가 title밖에 없다면 title에 focus
         else if (state.length === 1) {
-          state[0].isFocused = true;
+          newState[0].isFocused = true;
         }
+
+        return newState;
       }
+    },
+    focusState: (state, action) => {
+      const newState = state.map((question) => ({
+        ...question,
+        isFocused: false,
+      }));
+      const targetState = newState.find(
+        (question) => question.id === action.payload
+      ) as surveyProps;
+      targetState.isFocused = true;
+      return newState;
+    },
+    setTitle: (state, action) => {
+      const targetState = state.find(
+        (question) => question.id === action.payload.id
+      ) as surveyProps;
+      targetState.title = action.payload.text;
+    },
+
+    setTitleContent: (state, action) => {
+      const targetState = state.find(
+        (question) => question.id === action.payload.id
+      ) as surveyProps;
+      targetState.contents = action.payload.text;
     },
   },
 });
+
+export const {
+  addQuestion,
+  deleteQuestion,
+  focusState,
+  setTitle,
+  setTitleContent,
+} = surveySlice.actions;

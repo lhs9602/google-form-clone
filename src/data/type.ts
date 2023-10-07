@@ -1,5 +1,7 @@
+import { PersistState } from "redux-persist/lib/types";
+
 export interface surveyProps {
-  id?: string;
+  id: string;
   type: string;
   title: string;
   contents:
@@ -11,4 +13,9 @@ export interface surveyProps {
       }[];
   isFocused: boolean;
   isRequired?: boolean;
+}
+
+export interface stateProps {
+  survey: surveyProps[];
+  _persist: PersistState;
 }
