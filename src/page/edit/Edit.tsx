@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { EditBox } from "../../component/editBox/EditBox";
@@ -12,8 +13,9 @@ function Edit() {
   useEffect(() => {
     if (survey.length < 2) {
       dispatch(addQuestion());
+      console.log(1);
     }
-  });
+  }, []);
 
   return (
     <EditContainer>

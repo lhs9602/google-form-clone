@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
+
 import { stateProps, surveyProps } from "../../data/Type";
-import { setTitle } from "../../redux/reducer/Reducer";
+import { deleteEtc, deleteOption, setTitle } from "../../redux/reducer/Reducer";
 import {
   QuestionContainer,
   HeaderContainer,
@@ -10,6 +11,8 @@ import {
 import { OptionMark } from "../optionMark/OptionMark";
 import TypeSelector from "../typeSelector/TypeSelector";
 import { AddOption } from "../addOption/AddOption";
+import IconButton from "@mui/material/IconButton/IconButton";
+import { QuestionFooter } from "../questionFooter/QuestionFooter";
 
 export const QuestionEditBody = ({
   id,
@@ -41,7 +44,7 @@ export const QuestionEditBody = ({
         Array.isArray(item.contents) &&
         item.contents.map((option, index) => {
           return (
-            <OptionContainer>
+            <OptionContainer key={option.contentId}>
               <OptionMark type={item.type} num={index} />
               <QuestionField
                 value={option.text}
@@ -50,6 +53,15 @@ export const QuestionEditBody = ({
                 color="secondary"
                 multiline
               />
+              <IconButton
+                onClick={() => {
+                  dispatch(
+                    deleteOption({ id: id, contentId: option.contentId })
+                  );
+                }}
+              >
+                x
+              </IconButton>
             </OptionContainer>
           );
         })
@@ -63,7 +75,7 @@ export const QuestionEditBody = ({
         />
       )}
 
-      {item.isEtc === false && (
+      {item.isEtc && (
         <OptionContainer>
           <OptionMark type={item.type} num={item.contents.length} />
           <QuestionField
@@ -73,15 +85,25 @@ export const QuestionEditBody = ({
             color="secondary"
             disabled={true}
           />
+          <IconButton
+            onClick={() => {
+              dispatch(deleteEtc({ id: id }));
+            }}
+          >
+            x
+          </IconButton>
         </OptionContainer>
       )}
 
-      <AddOption
-        type={item.type}
-        num={item.contents.length}
-        isEtc={item.isEtc}
-      />
-      <div></div>
+      {["radio", "checkBox", "dropDown"].includes(item.type) && isFocused && (
+        <AddOption
+          id={id}
+          type={item.type}
+          num={item.contents.length}
+          isEtc={item.isEtc}
+        />
+      )}
+      {isFocused && <QuestionFooter id={item.id} />}
     </QuestionContainer>
   );
 };
