@@ -184,6 +184,20 @@ export const surveySlice = createSlice({
 
       targetState.isRequired = !targetState.isRequired;
     },
+    moveQuestion: (state, action) => {
+      const newState = [...state];
+      const targetState = newState.splice(Number(action.payload.start), 1);
+      newState.splice(Number(action.payload.end), 0, ...targetState);
+      return newState;
+    },
+    moveOption: (state, action) => {
+      const targetState = state.find(
+        (card) => card.id === action.payload.id
+      ) as surveyProps;
+      const contents = targetState.contents as contentProps[];
+      const tmp = contents.splice(Number(action.payload.start), 1);
+      contents.splice(Number(action.payload.end), 0, ...tmp);
+    },
   },
 });
 
@@ -200,4 +214,6 @@ export const {
   deleteEtc,
   copyQuestion,
   changeRequired,
+  moveQuestion,
+  moveOption,
 } = surveySlice.actions;

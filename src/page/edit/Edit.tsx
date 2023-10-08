@@ -1,10 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import {
+  DragDropContext,
+  Draggable,
+  DropResult,
+  Droppable,
+} from "react-beautiful-dnd";
+
 import { EditBox } from "../../component/editBox/EditBox";
 import { stateProps } from "../../data/Type";
 import { EditContainer } from "./Edit.styled";
-import { addQuestion } from "../../redux/reducer/Reducer";
+import { addQuestion, moveQuestion } from "../../redux/reducer/Reducer";
 import { FixedButtons } from "../../common/fixedButtons/FixedButtons";
 
 function Edit() {
@@ -17,19 +24,58 @@ function Edit() {
       console.log(1);
     }
   }, []);
+  const handleOnDragEnd = ({ destination, source }: DropResult) => {
+    if (!destination || destination.index === 0) {
+      return;
+    }
 
+    if (source.droppableId === "editBox") {
+      dispatch(
+        moveQuestion({
+          start: String(source.index),
+          end: String(destination.index),
+        })
+      );
+    }
+  };
   return (
-    <EditContainer>
-      {survey.map((data) => (
-        <EditBox
-          key={data.id}
-          id={data.id}
-          type={data.type}
-          isFocused={data.isFocused}
-        />
-      ))}
-      <FixedButtons />
-    </EditContainer>
+    <DragDropContext onDragEnd={handleOnDragEnd}>
+      <Droppable droppableId="editBox" direction="vertical">
+        {(provided) => (
+          <EditContainer {...provided.droppableProps} ref={provided.innerRef}>
+            {survey.map((data, index) =>
+              data.type === "title" ? (
+                <EditBox
+                  key={data.id}
+                  id={data.id}
+                  type={data.type}
+                  isFocused={data.isFocused}
+                />
+              ) : (
+                <Draggable
+                  key={data.id}
+                  draggableId={String(data.id)}
+                  index={index}
+                >
+                  {(provided) => (
+                    <div ref={provided.innerRef} {...provided.draggableProps}>
+                      <EditBox
+                        id={data.id}
+                        type={data.type}
+                        isFocused={data.isFocused}
+                        handle={provided.dragHandleProps}
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              )
+            )}
+            {provided.placeholder}
+            <FixedButtons />
+          </EditContainer>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 }
 

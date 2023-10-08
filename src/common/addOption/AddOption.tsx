@@ -20,7 +20,7 @@ export const AddOption = ({
   const dispatch = useDispatch();
 
   return (
-    <OptionContainer>
+    <OptionContainer style={{ paddingLeft: "20px" }}>
       <OptionMark type={type} num={isEtc ? num + 1 : num} />
       <Button
         variant="text"
