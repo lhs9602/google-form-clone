@@ -1,18 +1,8 @@
-import TextField from "@mui/material/TextField";
-import { styled } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { stateProps, surveyProps } from "../../data/Type";
 import { setTitle, setTitleContent } from "../../redux/reducer/Reducer";
+import { TitleContainer, TitleField } from "./TitleEditBody.styled";
 
-export const TitleContainer = styled.div`
-  padding: 24px;
-  outline: none;
-  display: flex;
-  flex-direction: column;
-  height: fit-content;
-  gap: 12px;
-  font-size: 24pt;
-`;
 export const TitleEditBody = ({ id }: { id: string }) => {
   const item = useSelector((state: stateProps) =>
     state.survey.find((item) => item.id === id)
@@ -21,18 +11,23 @@ export const TitleEditBody = ({ id }: { id: string }) => {
   return (
     <TitleContainer>
       <div>
-        <TextField
+        <TitleField
           value={item.title}
-          onChange={(e) => dispatch(setTitle({ id: id, text: e.target.value }))}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            dispatch(setTitle({ id: id, text: e.target.value }))
+          }
+          inputProps={{
+            style: { fontSize: 24 },
+          }}
           placeholder="제목"
           color="secondary"
           variant="standard"
           fullWidth={true}
-          multiline
+          $isFocused={item.isFocused}
         />
       </div>
       <div>
-        <TextField
+        <TitleField
           value={item.contents}
           onChange={(e) =>
             dispatch(setTitleContent({ id: id, text: e.target.value }))
@@ -41,6 +36,7 @@ export const TitleEditBody = ({ id }: { id: string }) => {
           variant="standard"
           fullWidth={true}
           color="secondary"
+          $isFocused={item.isFocused}
           multiline
         />
       </div>

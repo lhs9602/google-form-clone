@@ -9,13 +9,18 @@ export interface surveyProps {
     | {
         contentId?: string;
         text?: string;
-        etc?: boolean;
       }[];
   isFocused: boolean;
   isRequired?: boolean;
+  isEtc?: boolean;
 }
 
 export interface stateProps {
   survey: surveyProps[];
   _persist: PersistState;
+}
+
+export interface TypeSelectorProps {
+  value: string;
+  id: string;
 }

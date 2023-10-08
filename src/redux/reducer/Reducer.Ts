@@ -15,15 +15,16 @@ const initialdata: surveyProps[] = [
 const questionForm = (id: string): surveyProps => ({
   id,
   type: "radio",
-  title: "",
+  title: "제목",
   contents: [
     {
-      contentId: id + 1,
+      contentId: id,
       text: `옵션 1`,
     },
   ],
   isFocused: true,
   isRequired: false,
+  isEtc: false,
 });
 
 export const surveySlice = createSlice({
@@ -90,6 +91,32 @@ export const surveySlice = createSlice({
       ) as surveyProps;
       targetState.contents = action.payload.text;
     },
+    changeType: (state, action) => {
+      const targetState = state.find(
+        (question) => question.id === action.payload.id
+      ) as surveyProps;
+
+      if (["text", "textarea"].includes(action.payload.type)) {
+        targetState.contents = " ";
+        targetState.isEtc = false;
+      } else if (
+        ["text", "textarea"].includes(targetState.type) &&
+        ["radio", "checkBox", "dropDown"].includes(action.payload.type)
+      ) {
+        targetState.contents = [
+          {
+            contentId: nanoid(),
+            text: `옵션 1`,
+          },
+        ];
+
+        if (action.payload.type === "dropDown") {
+          targetState.isEtc = false;
+        }
+      }
+      targetState.type = action.payload.type;
+      console.log(targetState);
+    },
   },
 });
 
@@ -99,4 +126,5 @@ export const {
   focusState,
   setTitle,
   setTitleContent,
+  changeType,
 } = surveySlice.actions;
