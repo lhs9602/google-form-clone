@@ -5,6 +5,7 @@ import { EditBox } from "../../component/editBox/EditBox";
 import { stateProps } from "../../data/Type";
 import { EditContainer } from "./Edit.styled";
 import { addQuestion } from "../../redux/reducer/Reducer";
+import { FixedButtons } from "../../common/fixedButtons/FixedButtons";
 
 function Edit() {
   const survey = useSelector((state: stateProps) => state.survey);
@@ -27,6 +28,7 @@ function Edit() {
           isFocused={data.isFocused}
         />
       ))}
+      <FixedButtons />
     </EditContainer>
   );
 }

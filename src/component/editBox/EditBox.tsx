@@ -30,7 +30,6 @@ export const EditBox = ({
       ) : (
         <QuestionEditBody id={id} isFocused={isFocused} />
       )}
-      <div></div>
     </EditBoxContainer>
   );
 };

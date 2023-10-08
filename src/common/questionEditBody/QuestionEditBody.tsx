@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-
+import IconButton from "@mui/material/IconButton/IconButton";
 import { stateProps, surveyProps } from "../../data/Type";
 import { deleteEtc, deleteOption, setTitle } from "../../redux/reducer/Reducer";
 import {
@@ -11,7 +11,6 @@ import {
 import { OptionMark } from "../optionMark/OptionMark";
 import TypeSelector from "../typeSelector/TypeSelector";
 import { AddOption } from "../addOption/AddOption";
-import IconButton from "@mui/material/IconButton/IconButton";
 import { QuestionFooter } from "../questionFooter/QuestionFooter";
 
 export const QuestionEditBody = ({
@@ -53,15 +52,17 @@ export const QuestionEditBody = ({
                 color="secondary"
                 multiline
               />
-              <IconButton
-                onClick={() => {
-                  dispatch(
-                    deleteOption({ id: id, contentId: option.contentId })
-                  );
-                }}
-              >
-                x
-              </IconButton>
+              {isFocused && (
+                <IconButton
+                  onClick={() => {
+                    dispatch(
+                      deleteOption({ id: id, contentId: option.contentId })
+                    );
+                  }}
+                >
+                  x
+                </IconButton>
+              )}
             </OptionContainer>
           );
         })
