@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-export const EditBoxContainer = styled.div`
+export const BoxContainer = styled.div`
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
     0 1px 3px 0 rgba(0, 0, 0, 0.12);
   transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);

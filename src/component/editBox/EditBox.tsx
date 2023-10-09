@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { TitleEditBody } from "../../common/titleEditBody/TitleEditBody";
 import { focusState } from "../../redux/reducer/Reducer";
-import { EditBoxContainer, FocusLine, TitleHeader } from "./EditBox.styled";
+import { BoxContainer, FocusLine, TitleHeader } from "./EditBox.styled";
 import { QuestionEditBody } from "../../common/questionEditBody/QuestionEditBody";
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
 
@@ -19,7 +19,7 @@ export const EditBox = ({
   const dispatch = useDispatch();
 
   return (
-    <EditBoxContainer
+    <BoxContainer
       onClick={() => {
         if (!isFocused) {
           dispatch(focusState(id));
@@ -33,6 +33,6 @@ export const EditBox = ({
       ) : (
         <QuestionEditBody id={id} isFocused={isFocused} handle={handle} />
       )}
-    </EditBoxContainer>
+    </BoxContainer>
   );
 };

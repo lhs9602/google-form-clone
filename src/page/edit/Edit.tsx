@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import {
   DragDropContext,
   Draggable,
+  DraggableProvidedDragHandleProps,
   DropResult,
   Droppable,
 } from "react-beautiful-dnd";
@@ -63,7 +64,9 @@ function Edit() {
                         id={data.id}
                         type={data.type}
                         isFocused={data.isFocused}
-                        handle={provided.dragHandleProps}
+                        handle={
+                          provided.dragHandleProps as DraggableProvidedDragHandleProps
+                        }
                       />
                     </div>
                   )}

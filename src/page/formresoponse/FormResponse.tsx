@@ -1,5 +1,4 @@
 function FormResponse() {
-  return <></>;
+  return <div></div>;
 }
-
 export default FormResponse;

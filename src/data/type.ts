@@ -9,11 +9,14 @@ export interface surveyProps {
   isRequired?: boolean;
   isEtc?: boolean;
 }
-
+export interface handleResponseProps {
+  (type: string, newValue: string | string[]): void;
+}
 export interface contentProps {
   contentId: string;
   text: string;
 }
+
 export interface stateProps {
   survey: surveyProps[];
   _persist: PersistState;
@@ -22,4 +25,12 @@ export interface stateProps {
 export interface TypeSelectorProps {
   value: string;
   id: string;
+}
+export interface QuestionValue {
+  isRequired: boolean;
+  value: string | string[];
+}
+
+export interface FormValues {
+  [key: string]: QuestionValue;
 }
