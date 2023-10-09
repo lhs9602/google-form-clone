@@ -12,10 +12,10 @@ const initialdata: surveyProps[] = [
   },
 ];
 
-const questionForm = (id: string): surveyProps => ({
+const questionForm = (id: string, length: number): surveyProps => ({
   id,
   type: "radio",
-  title: "제목",
+  title: `질문 ${length}`,
   contents: [
     {
       contentId: id,
@@ -42,7 +42,7 @@ export const surveySlice = createSlice({
         isFocused: false,
       }));
 
-      newState.push(questionForm(nanoid()));
+      newState.push(questionForm(nanoid(), newState.length));
       return newState;
     },
     deleteQuestion: (state, action) => {
@@ -169,6 +169,7 @@ export const surveySlice = createSlice({
       newState.push({
         ...newState[targetIndex],
         id: nanoid(),
+        title: `질문 ${newState.length}`,
         isFocused: true,
       });
 
