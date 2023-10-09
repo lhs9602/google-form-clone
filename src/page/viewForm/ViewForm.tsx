@@ -31,7 +31,7 @@ function ViewForm() {
       alert("Please fill out all required fields!");
       return;
     }
-    console.log(e);
+    console.log(formik.values);
     //formik.handleSubmit(e);
   };
 
@@ -57,7 +57,6 @@ function ViewForm() {
                 key={question.id}
                 question={question}
                 handleResponse={handleResponse}
-                valuse={formik.values[question.title].value}
               />
             );
           } else if (question.type === "textarea") {
@@ -66,7 +65,6 @@ function ViewForm() {
                 key={question.id}
                 question={question}
                 handleResponse={handleResponse}
-                valuse={formik.values[question.title].value}
               />
             );
           } else if (question.type === "radio") {
@@ -75,7 +73,6 @@ function ViewForm() {
                 key={question.id}
                 question={question}
                 handleResponse={handleResponse}
-                valuse={formik.values[question.title].value}
               />
             );
           } else if (question.type === "checkBox") {
@@ -84,7 +81,6 @@ function ViewForm() {
                 key={question.id}
                 question={question}
                 handleResponse={handleResponse}
-                valuse={formik.values[question.title].value}
               />
             );
           } else if (question.type === "dropDown") {
@@ -93,7 +89,6 @@ function ViewForm() {
                 key={question.id}
                 question={question}
                 handleResponse={handleResponse}
-                valuse={formik.values[question.title].value}
               />
             );
           }

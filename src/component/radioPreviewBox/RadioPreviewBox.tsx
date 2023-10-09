@@ -32,7 +32,13 @@ export const RadioPreviewBox = ({
 
   const radioHandler = (text: string) => {
     setSelectedOption(text);
-    handleResponse(questionTitle, text); // 단일 문자열로 업데이트
+    handleResponse(questionTitle, text);
+  };
+
+  const handleCustom = (text: string) => {
+    setCustomOptions(text);
+    setSelectedOption(text);
+    handleResponse(questionTitle, text);
   };
 
   return (
@@ -51,7 +57,7 @@ export const RadioPreviewBox = ({
         <FormControlLabel
           key={option.contentId}
           control={
-            <Radio // Radio 컴포넌트 사용
+            <Radio
               name="radioOptions"
               value={option.text}
               checked={selectedOption === option.text}
@@ -65,8 +71,8 @@ export const RadioPreviewBox = ({
         <Radio
           name="radioOptions"
           value={customOptions}
-          checked={selectedOption === customOptions}
-          onChange={() => radioHandler(customOptions)}
+          checked={customOptions ? selectedOption === customOptions : false}
+          onChange={() => handleCustom(customOptions)}
         />
         <TextField
           name="customRadio"
