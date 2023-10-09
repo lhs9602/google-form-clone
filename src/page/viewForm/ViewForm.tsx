@@ -1,38 +1,40 @@
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
+import { useSelector } from "react-redux";
+
 import { ViewFormContainer, ViewFormFooter } from "./ViewForm.styled";
 import { TitlePreviewBox } from "../../component/titlePreviewBox/TitlePreviewBox";
-import { useSelector } from "react-redux";
 import { FormValues, stateProps } from "../../data/Type";
 import { CheckBoxPreviewBox } from "../../component/checkBoxPreviewBox/CheckBoxPreviewBox";
 import { DropDownPreviewBox } from "../../component/dropDownPreviewBox/DropDownPreviewBox";
 import { RadioPreviewBox } from "../../component/radioPreviewBox/RadioPreviewBox";
 import { TextPreviewBox } from "../../component/textPreviewBox/TextPreviewBox";
 import { TextareaPreviewBox } from "../../component/textareaPreviewBox/TextareaPreviewBox";
-import { Button } from "@mui/material";
 import { validate } from "../../utill/validate";
 
 function ViewForm() {
+  const navigate = useNavigate();
   const survey = useSelector((state: stateProps) => state.survey);
   const initialArray = survey.map((question) => {
     return [question.title, { isRequired: question.isRequired, value: "" }];
   });
+  initialArray.shift();
   const formik = useFormik<FormValues>({
     initialValues: Object.fromEntries(initialArray),
     validate,
     onSubmit: (values) => {
-      console.log(values);
+      navigate("/formResponse", { state: values });
     },
   });
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (Object.keys(formik.errors).length > 0) {
-      alert("Please fill out all required fields!");
+      alert("필수값을 입력하지 않았습니다");
       return;
     }
-    console.log(formik.values);
-    //formik.handleSubmit(e);
+    formik.handleSubmit(e);
   };
 
   const handleResponse = (type: string, newValue: string | string[]) => {

@@ -35,7 +35,7 @@ export const DropDownPreviewBox = ({
   return (
     <PreviewContainer>
       <HeaderContainer>
-        {!question.isRequired && (
+        {question.isRequired && (
           <Typography variant="h5" color="primary">
             *
           </Typography>

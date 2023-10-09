@@ -22,7 +22,6 @@ function Edit() {
   useEffect(() => {
     if (survey.length < 2) {
       dispatch(addQuestion());
-      console.log(1);
     }
   }, []);
   const handleOnDragEnd = ({ destination, source }: DropResult) => {

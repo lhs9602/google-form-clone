@@ -34,3 +34,7 @@ export interface QuestionValue {
 export interface FormValues {
   [key: string]: QuestionValue;
 }
+export interface FormResponseProps {
+  isRequired: boolean;
+  value: string;
+}

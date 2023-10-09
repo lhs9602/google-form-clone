@@ -62,7 +62,6 @@ export const surveySlice = createSlice({
         //제거한 요소의 다음 요소가 존재하면 그 요소에 focus
         else if (newState.length === 1) {
           newState[0].isFocused = true;
-          console.log(newState);
         } else if (targetIndex < state.length) {
           newState[targetIndex].isFocused = true;
         }
@@ -119,7 +118,6 @@ export const surveySlice = createSlice({
         }
       }
       targetState.type = action.payload.type;
-      console.log(targetState);
     },
     addOption: (state, action) => {
       const targetState = state.find(
@@ -174,7 +172,6 @@ export const surveySlice = createSlice({
         isFocused: true,
       });
 
-      console.log(newState);
       return newState;
     },
     changeRequired: (state, action) => {
