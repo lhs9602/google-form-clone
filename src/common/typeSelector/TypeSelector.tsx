@@ -7,22 +7,25 @@ import {
 import { useDispatch } from "react-redux";
 import { changeType } from "../../redux/reducer/Reducer";
 import { TypeSelectorProps } from "../../data/Type";
-const TypeSelector = ({ value, id }: TypeSelectorProps) => {
+import { menuItems } from "../../data/SurveyData";
+
+export const TypeSelector = ({ value, id }: TypeSelectorProps) => {
   const dispatch = useDispatch();
+  //질문 타입 변경
   const handleTypeChange = (event: SelectChangeEvent<string>) => {
     dispatch(changeType({ id, type: event.target.value as string }));
   };
+
   return (
     <FormControl sx={{ minWidth: 208 }}>
+      {/* 드롭다운으로 질문 타입 선택 */}
       <Select value={value} onChange={handleTypeChange}>
-        <MenuItem value={"text"}>단답형</MenuItem>
-        <MenuItem value={"textarea"}>장문형</MenuItem>
-        <MenuItem value={"radio"}>객관식 질문</MenuItem>
-        <MenuItem value={"checkBox"}>체크박스</MenuItem>
-        <MenuItem value={"dropDown"}>드롭다운</MenuItem>
+        {menuItems.map((item) => (
+          <MenuItem key={item.value} value={item.value}>
+            {item.label}
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
   );
 };
-
-export default TypeSelector;

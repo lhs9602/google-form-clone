@@ -37,3 +37,12 @@ export const contentsForm = (id: string, num: number): contentProps => ({
   contentId: id,
   text: `옵션 ${num}`,
 });
+
+//질문 타입 모음
+export const menuItems = [
+  { value: "text", label: "단답형" },
+  { value: "textarea", label: "장문형" },
+  { value: "radio", label: "객관식 질문" },
+  { value: "checkBox", label: "체크박스" },
+  { value: "dropDown", label: "드롭다운" },
+];

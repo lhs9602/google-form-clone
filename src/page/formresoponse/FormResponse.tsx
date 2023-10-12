@@ -4,8 +4,10 @@ import { Divider } from "@mui/joy";
 import { Typography } from "@mui/material";
 import { FormResponseProps } from "../../data/Type";
 
+//제목과 응답을 출력
 function FormResponse() {
   const { state } = useLocation();
+  //state를 {title,value}의배열로 변환.
   const result = Object.entries(state).map(([key, value]) => {
     const Selectvalue = value as FormResponseProps;
     return { title: key, value: Selectvalue.value };
@@ -13,6 +15,7 @@ function FormResponse() {
 
   return (
     <FormResponseBox>
+      {/* 질문의 제목과 답변들을 출력 */}
       {result.map((Select, index) => {
         return (
           <div key={index}>

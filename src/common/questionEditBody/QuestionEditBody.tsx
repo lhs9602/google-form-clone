@@ -1,32 +1,23 @@
 import { useSelector, useDispatch } from "react-redux";
 import IconButton from "@mui/material/IconButton/IconButton";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
-import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import { stateProps, surveyProps } from "../../data/Type";
-import {
-  deleteEtc,
-  deleteOption,
-  moveOption,
-  setTitle,
-} from "../../redux/reducer/Reducer";
+import { deleteEtc, moveOption } from "../../redux/reducer/Reducer";
 import {
   QuestionContainer,
-  HeaderContainer,
   QuestionField,
   OptionContainer,
   DragHand,
 } from "./QuestionEditBody.styled";
 import { OptionMark } from "../optionMark/OptionMark";
-import TypeSelector from "../typeSelector/TypeSelector";
 import { AddOption } from "../addOption/AddOption";
 import { QuestionFooter } from "../questionFooter/QuestionFooter";
 import {
-  Droppable,
-  Draggable,
-  DragDropContext,
   DropResult,
   DraggableProvidedDragHandleProps,
 } from "react-beautiful-dnd";
+import { QuestionHeader } from "../questionHeader/QuestionHeader";
+import { QuestionOption } from "../questionOption/QuestionOption";
 
 export const QuestionEditBody = ({
   id,
@@ -37,12 +28,15 @@ export const QuestionEditBody = ({
   isFocused: boolean;
   handle?: DraggableProvidedDragHandleProps;
 }) => {
-  const item = useSelector((state: stateProps) =>
+  const questionData = useSelector((state: stateProps) =>
     state.survey.find((item) => item.id === id)
   ) as surveyProps;
   const dispatch = useDispatch();
+  const choiceTypes = ["radio", "checkBox", "dropDown"];
 
+  //드래그로 옵션 위치 변경
   const handleOnDragEnd = ({ destination, source }: DropResult) => {
+    //잘못된 위치에 드래그를 놓을 경우 중지
     if (!destination) {
       return;
     }
@@ -58,90 +52,48 @@ export const QuestionEditBody = ({
     }
   };
 
+  //기타 옵션 제거
+  const handleDeleteEtc = (id: string) => {
+    dispatch(deleteEtc({ id: id }));
+  };
+
   return (
     <QuestionContainer $isFocused={isFocused}>
-      {isFocused && (
-        <DragHand {...handle}>
-          <DragHandleIcon fontSize="small" />
-        </DragHand>
-      )}
-      <HeaderContainer>
-        <QuestionField
-          value={item.title}
-          onChange={(e) => dispatch(setTitle({ id: id, text: e.target.value }))}
-          placeholder="제목"
-          color="secondary"
-          variant="filled"
-          fullWidth={true}
-          $isFocused={isFocused}
+      {/* 드래그 핸들 */}
+      <DragHand {...handle}>
+        <DragHandleIcon fontSize="small" />
+      </DragHand>
+      {/* 제목이나 타입지정하는 질문헤더 */}
+      <QuestionHeader
+        id={id}
+        title={questionData.title}
+        type={questionData.type}
+        isFocused={isFocused}
+      />
+      {choiceTypes.includes(questionData.type) ? (
+        <QuestionOption
+          questionData={questionData}
+          isFocused={isFocused}
+          handleOnDragEnd={handleOnDragEnd}
         />
-
-        {isFocused ? <TypeSelector value={item.type} id={id} /> : null}
-      </HeaderContainer>
-      {["radio", "checkBox", "dropDown"].includes(item.type) ? (
-        <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="option" direction="vertical">
-            {(provided) => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
-                {Array.isArray(item.contents) &&
-                  item.contents.map((option, index) => (
-                    <Draggable
-                      key={option.contentId}
-                      draggableId={String(option.contentId)}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <OptionContainer
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                        >
-                          <DragHand {...provided.dragHandleProps}>
-                            <DragIndicatorIcon fontSize="small" />
-                          </DragHand>
-                          <OptionMark type={item.type} num={index} />
-                          <QuestionField
-                            value={option.text}
-                            variant="standard"
-                            fullWidth={true}
-                            color="secondary"
-                            multiline
-                          />
-                          {isFocused && (
-                            <IconButton
-                              onClick={() => {
-                                dispatch(
-                                  deleteOption({
-                                    id: id,
-                                    contentId: option.contentId,
-                                  })
-                                );
-                              }}
-                            >
-                              x
-                            </IconButton>
-                          )}
-                        </OptionContainer>
-                      )}
-                    </Draggable>
-                  ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
       ) : (
         <QuestionField
-          value={item.type === "text" ? "단답형 텍스트" : "장문형 텍스트"}
+          value={
+            questionData.type === "text" ? "단답형 텍스트" : "장문형 텍스트"
+          }
           variant="standard"
           fullWidth={true}
           color="secondary"
           disabled={true}
         />
       )}
-
-      {item.isEtc && (
+      {/* 기타 항목은 가장 아래에 위치하고 드래그 불가능 하게 따로 선언 */}
+      {questionData.isEtc && (
         <OptionContainer style={{ paddingLeft: "20px" }}>
-          <OptionMark type={item.type} num={item.contents.length} />
+          <OptionMark
+            type={questionData.type}
+            num={questionData.contents.length}
+          />
           <QuestionField
             value={"기타..."}
             variant="standard"
@@ -151,7 +103,7 @@ export const QuestionEditBody = ({
           />
           <IconButton
             onClick={() => {
-              dispatch(deleteEtc({ id: id }));
+              handleDeleteEtc(id);
             }}
           >
             x
@@ -159,15 +111,16 @@ export const QuestionEditBody = ({
         </OptionContainer>
       )}
 
-      {["radio", "checkBox", "dropDown"].includes(item.type) && isFocused && (
+      {/* 옵션을 추가하는 버튼  */}
+      {choiceTypes.includes(questionData.type) && isFocused && (
         <AddOption
           id={id}
-          type={item.type}
-          num={item.contents.length}
-          isEtc={item.isEtc}
+          type={questionData.type}
+          num={questionData.contents.length}
+          isEtc={questionData.isEtc}
         />
       )}
-      {isFocused && <QuestionFooter id={item.id} />}
+      {isFocused && <QuestionFooter id={questionData.id} />}
     </QuestionContainer>
   );
 };

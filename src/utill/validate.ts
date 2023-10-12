@@ -10,7 +10,7 @@ export const validate = (values: FormValues): FormikErrors<FormValues> => {
     // 필수 질문이 비어있을때
     if (
       isRequired &&
-      (!value || (Array.isArray(value) && value.length === 0))
+      (value === "" || !value || (Array.isArray(value) && value.length === 0))
     ) {
       // errors 객체에 오류 메시지 추가
       errors[key] = { value: "fail" };

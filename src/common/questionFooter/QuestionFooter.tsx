@@ -18,33 +18,42 @@ export const QuestionFooter = ({ id }: { id: string }) => {
   const item = useSelector((state: stateProps) =>
     state.survey.find((item) => item.id === id)
   ) as surveyProps;
+
   const dispatch = useDispatch();
+
+  // 질문을 복사
+  const handleCopyClick = () => {
+    dispatch(copyQuestion({ id }));
+  };
+
+  // 질문을 삭제
+  const handleDeleteClick = () => {
+    dispatch(deleteQuestion({ id }));
+  };
+
+  // 질문을 필수 여부를 변경
+  const handleSwitchChange = () => {
+    dispatch(changeRequired({ id }));
+  };
 
   return (
     <FooterContainer>
-      <IconButton
-        onClick={() => {
-          dispatch(copyQuestion({ id }));
-        }}
-      >
+      {/* 복사 버튼*/}
+      <IconButton onClick={handleCopyClick}>
         <ContentCopyRoundedIcon />
       </IconButton>
-      <IconButton
-        onClick={() => {
-          dispatch(deleteQuestion({ id }));
-        }}
-      >
+      {/* 삭제 버튼 */}
+      <IconButton onClick={handleDeleteClick}>
         <DeleteIcon />
       </IconButton>
       <Divider orientation="vertical" />
+      {/* 필수 여부를 변경하는 토글*/}
       <FormControlLabel
-        value={item.isRequired}
         control={
           <Switch
+            checked={item.isRequired}
             color="primary"
-            onChange={() => {
-              dispatch(changeRequired({ id }));
-            }}
+            onChange={handleSwitchChange}
           />
         }
         label="필수"

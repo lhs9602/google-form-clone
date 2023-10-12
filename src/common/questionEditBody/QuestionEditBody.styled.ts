@@ -13,22 +13,6 @@ export const QuestionContainer = styled.span<{ $isFocused: boolean }>`
   font-size: 24pt;
   position: relative;
 `;
-export const HeaderContainer = styled.div`
-  display: flex;
-  gap: 12px;
-`;
-export const DragHand = styled.div`
-  display: flex;
-  justify-content: center;
-  visibility: visible;
-  opacity: 0;
-  transition: opacity 0.3s, visibility 0.3s;
-  &:hover {
-    visibility: visible;
-    opacity: 1;
-  }
-  cursor: move;
-`;
 
 export const OptionContainer = styled.div`
   display: flex;
@@ -46,4 +30,16 @@ export const QuestionField = styled(TextField)<{ $isFocused: boolean }>`
       border-bottom-style: none !important;
     }
   }
+`;
+export const DragHand = styled.div`
+  display: flex;
+  justify-content: center;
+  visibility: visible;
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+  &:hover {
+    visibility: visible;
+    opacity: 1;
+  }
+  cursor: move;
 `;

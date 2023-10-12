@@ -125,16 +125,31 @@ export const surveySlice = createSlice({
       // 특정 질문 찾기
       const targetState = findQuestion(state, action.payload.id);
 
-      //질문의 옵션을 할당
+      //질문의 옵션들을 할당
       const targetContents = targetState.contents as contentProps[];
 
-      //타입 가드를 위해서 따로 할당
+      //특정 옵션 탐샏
       const targetOptionIndex = targetContents.findIndex(
         (option: contentProps) => option.contentId === action.payload.contentId
       );
 
       //질문 옵션 제거
       targetContents.splice(targetOptionIndex, 1);
+    },
+    //질문의 옵션 변경
+    changeOption: (state, action) => {
+      // 특정 질문 찾기
+      const targetState = findQuestion(state, action.payload.id);
+
+      //질문의 옵션들을 할당
+      const targetContents = targetState.contents as contentProps[];
+
+      //특정 옵션 탐색
+      const targetOption = targetContents.find(
+        (option: contentProps) => option.contentId === action.payload.contentId
+      ) as contentProps;
+
+      targetOption.text = action.payload.text;
     },
     //기타 항목 추가
     addEtc: (state, action) => {
@@ -218,6 +233,7 @@ export const {
   changeType,
   addOption,
   deleteOption,
+  changeOption,
   addEtc,
   deleteEtc,
   copyQuestion,
