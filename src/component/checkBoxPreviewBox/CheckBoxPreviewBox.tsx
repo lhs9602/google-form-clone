@@ -20,24 +20,17 @@ import {
 
 export const CheckBoxPreviewBox = ({
   question,
+  checkValue,
   handleResponse,
 }: {
   question: surveyProps;
+  checkValue: string[];
   handleResponse: handleResponseProps;
 }) => {
   const questionTitle = question.title as string;
   const options = question.contents as contentProps[];
-  const [checkboxOptions, setCheckboxOptions] = useState<string[]>([]);
   const [customOptions, setCustomOptions] = useState("");
 
-  const checkboxHandler = (text: string) => {
-    if (checkboxOptions.includes(text)) {
-      setCheckboxOptions((prev) => prev.filter((item) => item !== text));
-    } else {
-      setCheckboxOptions((prev) => [...prev, text]);
-    }
-    handleResponse(questionTitle, checkboxOptions);
-  };
   return (
     <PreviewContainer>
       <HeaderContainer>
@@ -57,8 +50,8 @@ export const CheckBoxPreviewBox = ({
             <Checkbox
               name="checkboxOptions"
               value={option.text}
-              checked={checkboxOptions.includes(option.text)}
-              onChange={() => checkboxHandler(option.text)}
+              checked={checkValue.includes(option.text)}
+              onChange={() => handleResponse(questionTitle, option.text)}
             />
           }
           label={option.text}
@@ -68,8 +61,8 @@ export const CheckBoxPreviewBox = ({
         <Checkbox
           name="checkboxOptions"
           value={customOptions}
-          checked={checkboxOptions.includes(customOptions)}
-          onChange={() => checkboxHandler(customOptions)}
+          checked={checkValue.includes(customOptions)}
+          onChange={() => handleResponse(questionTitle, customOptions)}
         />
         <TextField
           name="customCheckbox"

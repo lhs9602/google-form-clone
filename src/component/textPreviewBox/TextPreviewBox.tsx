@@ -40,6 +40,9 @@ export const TextPreviewBox = ({
         placeholder="답변을 입력하세요..."
         value={textResponse}
         onChange={(e) => textHandler(e.target.value)}
+        inputProps={{
+          maxLength: 10,
+        }}
       />
     </PreviewContainer>
   );

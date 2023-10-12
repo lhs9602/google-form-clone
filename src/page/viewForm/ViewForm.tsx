@@ -17,7 +17,8 @@ function ViewForm() {
   const survey = useSelector((state: stateProps) => state.survey);
   // survey에서 초기 배열을 생성. 각 질문의 제목과 필수 여부, 값을 포함한 배열을 반환
   const initialArray = survey.map((question) => {
-    return [question.title, { isRequired: question.isRequired, value: "" }];
+    const value = question.type === "checkBox" ? [] : "";
+    return [question.title, { isRequired: question.isRequired, value: value }];
   });
   const navigate = useNavigate();
   // 첫 번째 요소는 제목이므로 배열에서 제거
@@ -31,15 +32,30 @@ function ViewForm() {
     validate,
     // submit 이벤트 핸들러
     onSubmit: (values) => {
+      console.log(values);
       // 결과 페이지로 이동
       navigate("/formResponse", { state: values });
     },
   });
 
-  //응답을 저장
+  //일반 응답을 저장
   const handleResponse = (type: string, newValue: string | string[]) => {
-    console.log(newValue);
     formik.setFieldValue(`${type}.value`, newValue);
+    console.log("newValue", newValue);
+    console.log("formik", formik.values);
+  };
+  //체크 박스 응답을 저장
+  const checkboxHandler = (questionTitle: string, text: string) => {
+    const checkBoxValue = formik.values[questionTitle].value as string[];
+
+    if (checkBoxValue.includes(text)) {
+      formik.setFieldValue(
+        `${questionTitle}.value`,
+        checkBoxValue.filter((item: string) => item !== text)
+      );
+    } else {
+      formik.setFieldValue(`${questionTitle}.value`, [...checkBoxValue, text]);
+    }
   };
 
   //응답 제출
@@ -102,7 +118,8 @@ function ViewForm() {
               <CheckBoxPreviewBox
                 key={question.id}
                 question={question}
-                handleResponse={handleResponse}
+                checkValue={formik.values[question.title].value as string[]}
+                handleResponse={checkboxHandler}
               />
             );
           } else if (question.type === "dropDown") {

@@ -18,7 +18,7 @@ export interface contentProps {
   text: string;
 }
 export interface handleResponseProps {
-  (type: string, newValue: string | string[]): void;
+  (type: string, newValue: string): void;
 }
 
 export interface stateProps {

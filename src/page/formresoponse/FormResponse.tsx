@@ -20,16 +20,35 @@ function FormResponse() {
         return (
           <div key={index}>
             <ResponseContainer>
-              <Typography variant="h5" color="primary">
+              <Typography
+                style={{ whiteSpace: "nowrap" }}
+                variant="h5"
+                color="primary"
+              >
                 Title {index + 1}:
               </Typography>
               <Typography variant="h6">{Select.title}</Typography>
             </ResponseContainer>
+
             <ResponseContainer>
-              <Typography variant="h5" color="secondary">
+              <Typography
+                style={{ whiteSpace: "nowrap" }}
+                variant="h5"
+                color="secondary"
+              >
                 옵션값:
               </Typography>
-              <Typography variant="h6">{Select.value}</Typography>
+
+              {/* value가 배열인지 확인하고 조건부로 Typography 컴포넌트 렌더링 */}
+              {Array.isArray(Select.value) ? (
+                Select.value.map((item, index) => (
+                  <Typography key={index} variant="h6">
+                    {item}
+                  </Typography>
+                ))
+              ) : (
+                <Typography variant="h6">{Select.value}</Typography>
+              )}
             </ResponseContainer>
             <Divider />
           </div>

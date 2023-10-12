@@ -18,7 +18,10 @@ export const TitlePreviewBox = ({
           {title}
         </Typography>
         <Divider variant="fullWidth" />
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="caption" gutterBottom>
+          *은 필수적으로 대답하셔야 하고, 단답형은 10글자 제한이 있습니다.
+        </Typography>
+        <Typography variant="subtitle1" gutterBottom>
           {contents}
         </Typography>
       </TitleContainer>
