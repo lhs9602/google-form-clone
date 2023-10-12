@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 import { getDefaultMiddleware } from "@reduxjs/toolkit";
 
+//로컬 스토리지 저장을 위해 redux-persist의 옵션 설정
 const persistConfig = {
   key: "root",
   storage,
