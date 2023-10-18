@@ -6,7 +6,7 @@ import "./App.css";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/google-form-clone">
       <main>
         <Routes>
           <Route path="/" element={<Edit />} />
