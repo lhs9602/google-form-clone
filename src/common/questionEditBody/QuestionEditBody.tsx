@@ -34,9 +34,7 @@ export const QuestionEditBody = ({
   const dispatch = useDispatch();
   const choiceTypes = ["radio", "checkBox", "dropDown"];
 
-  //드래그로 옵션 위치 변경
   const handleOnDragEnd = ({ destination, source }: DropResult) => {
-    //잘못된 위치에 드래그를 놓을 경우 중지
     if (!destination) {
       return;
     }
@@ -52,18 +50,16 @@ export const QuestionEditBody = ({
     }
   };
 
-  //기타 옵션 제거
   const handleDeleteEtc = (id: string) => {
     dispatch(deleteEtc({ id: id }));
   };
 
   return (
     <QuestionContainer $isFocused={isFocused}>
-      {/* 드래그 핸들 */}
       <DragHand {...handle}>
         <DragHandleIcon fontSize="small" />
       </DragHand>
-      {/* 제목이나 타입지정하는 질문헤더 */}
+
       <QuestionHeader
         id={id}
         title={questionData.title}
@@ -87,7 +83,7 @@ export const QuestionEditBody = ({
           disabled={true}
         />
       )}
-      {/* 기타 항목은 가장 아래에 위치하고 드래그 불가능 하게 따로 선언 */}
+
       {questionData.isEtc && (
         <OptionContainer style={{ paddingLeft: "20px" }}>
           <OptionMark
@@ -111,7 +107,6 @@ export const QuestionEditBody = ({
         </OptionContainer>
       )}
 
-      {/* 옵션을 추가하는 버튼  */}
       {choiceTypes.includes(questionData.type) && isFocused && (
         <AddOption
           id={id}

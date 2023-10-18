@@ -12,7 +12,7 @@ export const QuestionHeader = ({
   isFocused,
 }: QuestionHeaderProps) => {
   const dispatch = useDispatch();
-  //제목 변경
+
   const handleTitleChange = (id: string, value: string) => {
     dispatch(setTitle({ id: id, text: value }));
   };
@@ -27,7 +27,7 @@ export const QuestionHeader = ({
         fullWidth={true}
         $isFocused={isFocused}
       />
-      {/* 질문의 type을 지정하는 드롭다운 */}
+
       {isFocused ? <TypeSelector value={type} id={id} /> : null}
     </QuestionHeaderContainer>
   );

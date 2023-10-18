@@ -12,12 +12,10 @@ export const FixedButtons = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // 질문 추가
   const handleAddQuestion = () => {
     dispatch(addQuestion());
   };
 
-  // 미리보기 페이지 이동
   const handlePreview = () => {
     navigate("/viewform");
   };
@@ -25,7 +23,6 @@ export const FixedButtons = () => {
   return (
     <ButtonContainer>
       <ButtonGroup orientation="vertical">
-        {/* 질문 추가 버튼 */}
         <Tooltip title="질문 추가">
           <Button onClick={handleAddQuestion}>
             <AddCircleOutlineRoundedIcon
@@ -35,7 +32,6 @@ export const FixedButtons = () => {
           </Button>
         </Tooltip>
 
-        {/* 미리보기 버튼 */}
         <Tooltip title="미리보기">
           <Button onClick={handlePreview}>
             <VisibilityRoundedIcon

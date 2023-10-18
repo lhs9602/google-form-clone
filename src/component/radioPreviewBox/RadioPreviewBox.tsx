@@ -26,7 +26,6 @@ export const RadioPreviewBox = ({
   const questionTitle = question.title as string;
   const options = question.contents as contentProps[];
 
-  // 문자열 상태로 변경
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [customOptions, setCustomOptions] = useState("");
 

@@ -21,33 +21,29 @@ export const QuestionFooter = ({ id }: { id: string }) => {
 
   const dispatch = useDispatch();
 
-  // 질문을 복사
   const handleCopyClick = () => {
     dispatch(copyQuestion({ id }));
   };
 
-  // 질문을 삭제
   const handleDeleteClick = () => {
     dispatch(deleteQuestion({ id }));
   };
 
-  // 질문을 필수 여부를 변경
   const handleSwitchChange = () => {
     dispatch(changeRequired({ id }));
   };
 
   return (
     <FooterContainer>
-      {/* 복사 버튼*/}
       <IconButton onClick={handleCopyClick}>
         <ContentCopyRoundedIcon />
       </IconButton>
-      {/* 삭제 버튼 */}
+
       <IconButton onClick={handleDeleteClick}>
         <DeleteIcon />
       </IconButton>
       <Divider orientation="vertical" />
-      {/* 필수 여부를 변경하는 토글*/}
+
       <FormControlLabel
         control={
           <Switch

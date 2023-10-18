@@ -27,13 +27,11 @@ export const AddOption = ({
   };
   return (
     <OptionContainer style={{ paddingLeft: "20px" }}>
-      {/* 타입에 따라 앞에 오는 아이콘 변경 */}
       <OptionMark type={type} num={isEtc ? num + 1 : num} />
       <Button variant="text" onClick={handleOption}>
         옵션 추가
       </Button>
-      {/* 기타를 사용하는 객관식과 체크박스만 사용가능 */}
-      {/* 이미 기타 항목이 있다면 보이지 않음*/}
+
       {!isEtc && type !== "dropDown" && (
         <>
           <Typography>또는</Typography>

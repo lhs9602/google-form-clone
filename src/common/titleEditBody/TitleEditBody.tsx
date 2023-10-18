@@ -8,19 +8,16 @@ export const TitleEditBody = ({ id }: { id: string }) => {
   ) as surveyProps;
   const dispatch = useDispatch();
 
-  // 제목 변경
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setTitle({ id: id, text: e.target.value }));
   };
 
-  // 내용 변경
   const handleContentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setTitleContent({ id: id, text: e.target.value }));
   };
 
   return (
     <TitleContainer>
-      {/* 제목 입력 */}
       <div>
         <TitleField
           value={titleData.title}
@@ -35,7 +32,7 @@ export const TitleEditBody = ({ id }: { id: string }) => {
           $isFocused={titleData.isFocused}
         />
       </div>
-      {/* 설문지 설명 입력 */}
+
       <div>
         <TitleField
           value={titleData.contents}
