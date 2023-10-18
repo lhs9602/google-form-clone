@@ -1,7 +1,7 @@
 # 구글 설문지
 
 
-배포링크:
+배포링크:https://lhs9602.github.io/google-form-clone/
 
 
 ![2023-10-18 15 49 38](https://github.com/lhs9602/google-form-clone/assets/34961388/b6e4ac36-dc90-462e-a5db-de4f1757ab8d)
